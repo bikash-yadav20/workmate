@@ -1,0 +1,31 @@
+/workmate/admin/create-deduction-rule:
+  post:
+    summary: Create a deduction rule
+    description: Create a deduction rule on taking inputs- type, percentage and mode(daily, monthly). Deduction is on the basis of mode percentage
+    tags:
+      - Deduction rule
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+                example: "leave"
+              percentage:
+                type: integer
+                example: 10
+              mode:
+                type: string
+                example: daily
+    responses:
+      "200":
+        description: Deduction rule created
+      "400":
+        description: validation error
+      "409":
+        description: Already have an deduction rule
+      "500":
+        description: Internal server error

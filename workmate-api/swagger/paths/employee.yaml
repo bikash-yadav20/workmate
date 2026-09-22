@@ -1,0 +1,177 @@
+# Create a new employee
+/workmate/create-employee:
+  post:
+    summary: Create a new employee (only admin)
+    tags:
+      - Employees
+    security:
+      - cookieAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/Employee"
+                properties:
+                  address:
+                    $ref: "#/components/schemas/Address"
+                  salary:
+                    $ref: "#/components/schemas/Salary"
+    responses:
+      "201":
+        description: Employee created successfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                success:
+                  type: boolean
+                  example: true
+                data:
+                  $ref: "#/components/schemas/Employee"
+      "400":
+        description: Validation error or email already exists
+      "401":
+        description: Unauthorized - Missing or invalid token
+      "403":
+        description: Forbidden - Insufficient permissions (Admin only)
+      "500":
+        description: Internal server error
+
+# Login an employee
+/workmate/login:
+  post:
+    summary: Employee login using email or employeeId
+    tags:
+      - Employees
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/LoginCreds"
+    responses:
+      "200":
+        description: Login successful
+        headers:
+          Set-Cookie:
+            description: Sets the workmate authentication cookie
+            schema:
+              type: string
+              example: workmate=eyJhbGciOiJIUzI1Ni...; Path=/; HttpOnly; SameSite=Lax
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                success:
+                  type: boolean
+                  example: true
+                message:
+                  type: string
+                  example: Login successful
+                data:
+                  $ref: "#/components/schemas/Employee"
+      "400":
+        description: Password and either email or employeeId are required
+      "401":
+        description: Invalid credentials
+      "500":
+        description: Internal server error
+
+# Logout employee
+/workmate/employee-logout:
+  post:
+    summary: Employee logout
+    tags:
+      - Employees
+    security:
+      - cookieAuth: []
+    responses:
+      "200":
+        description: Logout successful
+        headers:
+          Set-Cookie:
+            description: Clear the workmate authentication cookie
+            schema:
+              type: string
+              example: workmate=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                success:
+                  type: boolean
+                  example: true
+                message:
+                  type: string
+                  example: Logout successful
+      "500":
+        description: Internal server error
+
+# Fetch all employees
+/workmate/employees:
+  get:
+    summary: Fetch all employees for the company
+    tags:
+      - Employees
+    security:
+      -cookieAuth: []
+    responses:
+      "200":
+        description: A list of all company employees fetched successfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                success:
+                  type: boolean
+                  example: true
+                data:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/Employee"
+      "401":
+        description: Unauthorized - Missing or invalid cookie token
+      "500":
+        description: Internal server error
+
+# Fetch employee by ID
+/workmate/employee/{id}:
+  get:
+    summary: Fetch an employee by ID
+    tags:
+      - Employees
+    security:
+      - cookieAuth: []
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The ID or UUID of the employee
+        schema:
+          type: integer
+          example: 1
+    responses:
+      "200":
+        description: Employee fetched successfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                success:
+                  type: boolean
+                  example: true
+                data:
+                  $ref: "#/components/schemas/Employee"
+      "401":
+        description: Unauthorized - Missing or invalid cookie token
+      "404":
+        description: Employee not found
+      "500":
+        description: Internal server error

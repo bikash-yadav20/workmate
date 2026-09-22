@@ -1,0 +1,89 @@
+/workmate/employee/apply-leave:
+  post:
+    summary: Apply for a leave
+    description: Allows the employees to apply for a leave, uses body data to create a new leave
+    tags:
+      - EmployeeLeave
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/employeeLeave"
+    responses:
+      "201":
+        description: Leave applied successfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                success:
+                  type: boolean
+                  example: true
+                message:
+                  type: string
+                  example: leave applied successfully
+                data:
+                  $ref: "#/components/schemas/employeeLeave"
+      "400":
+        description: Validation error
+      "401":
+        description: Unauthorized - Missing or invalid token
+      "500":
+        description: Internal server error
+/workmate/employee/update-leave:
+  patch:
+    summary: Employee can update type of there applied leave.
+    description: Employee can update type of there applied leave. Example- paid to unpaid
+    tags:
+      - EmployeeLeave
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/employeeLeave"
+    responses:
+      "200":
+        description: Leave type updated successfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                success:
+                  type: boolean
+                  example: true
+                message:
+                  type: string
+                  example: "updated successfully"
+                data:
+                  $ref: "#/components/schemas/employeeLeave"
+      "400":
+        description: Validation error
+      "401":
+        description: Unauthorized - Missing or invalid token
+      "500":
+        description: Internal server error
+/workmate/employee/withdraw-leave/{leaveId}:
+  delete:
+    summary: withdraw leave
+    description: withdraw a leave from leave requests, use s data from req.body and req.params, req.user
+    tags:
+      - EmployeeLeave
+    parameters:
+      - name: leaveId
+        in: path
+        description: the numeric id of the leave
+        required: true
+        schema:
+          type: integer
+    responses:
+      "200":
+        description: Leave withdraw success
+      "400":
+        description: Validation error
+      "401":
+        description: Unauthorized - Missing or invalid token
+      "500":
+        description: Internal server error

@@ -1,0 +1,86 @@
+# Create a new company along with initial admin employee
+/company/create-company:
+  post:
+    summary: Create a new company
+    tags:
+      - Companies
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - companyData
+              - adminData
+            properties:
+              companyData:
+                $ref: "#/components/schemas/Company"
+              adminData:
+                allOf:
+                  - $ref: "#/components/schemas/Employee"
+                  - type: object
+                    properties:
+                      address:
+                        $ref: "#/components/schemas/Address"
+                      salary:
+                        $ref: "#components/schemas/Salary"
+    responses:
+      "201":
+        description: Company and admin employee created successfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                success:
+                  type: boolean
+                  example: true
+                data:
+                  type: object
+                  properties:
+                    company:
+                      $ref: "#/components/schemas/Company"
+                    employee:
+                      $ref: "#/components/schemas/Employee"
+      "400":
+        description: Validation error or company email already exists
+      "500":
+        description: Internal server error
+
+# Update company details
+/company/update-details:
+  put:
+    summary: Update company details
+    tags:
+      - Companies
+    security:
+      - cookieAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Company"
+    responses:
+      "200":
+        description: Details updated successfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                success:
+                  type: boolean
+                  example: true
+                message:
+                  type: string
+                  example: Company details updated successfully
+                data:
+                  $ref: "#/components/schemas/Company"
+      "400":
+        description: Validation error
+      "401":
+        description: Unauthorized - Missing or invalid token
+      "500":
+        description: Internal server error

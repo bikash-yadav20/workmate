@@ -1,0 +1,48 @@
+/workmate/salary-periods:
+  post:
+    summary: "Generates draft salary periods for active companies"
+    description: "Executes the cycle generation batch for companies starting their pay period today. Uses query/body dates or defaults to current system date."
+    tags:
+      - SalaryPeriod
+    requestBody:
+      required: false
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              year:
+                type: integer
+                example: 2026
+                description: "4-digit year (defaults to current year)"
+              month:
+                type: integer
+                example: 9
+                description: "1-indexed human month 1-12 (defaults to current month)"
+    responses:
+      "201":
+        description: "Salary periods generated successfully"
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                success:
+                  type: boolean
+                  example: true
+                message:
+                  type: string
+                  example: "Salary periods generated successfully"
+                data:
+                  type: object
+                  properties:
+                    created:
+                      type: integer
+                      example: 5
+                    skipped:
+                      type: integer
+                      example: 0
+      "400":
+        description: "Bad Request - Invalid year or month input"
+      "500":
+        description: "Internal Server Error"

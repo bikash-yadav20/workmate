@@ -1,0 +1,21 @@
+/workmate/admin/advance-payment:
+  post:
+    summary: Pay advance money to employee
+    description: This allows to pay advance money to a employee
+    tags:
+      - Advance payment
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/advancePayment"
+    responses:
+      "201":
+        description: advance payment success
+      "400":
+        description: validation error
+      "401":
+        description: Unathorized access! Invalid token
+      "500":
+        description: Internal server error

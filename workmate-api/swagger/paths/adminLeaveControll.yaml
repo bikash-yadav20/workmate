@@ -1,0 +1,37 @@
+/workmate/admin/leave-status:
+  put:
+    summary: Leave&reject approve
+    description: Admin can leave or reject and leave of a employee
+    tags:
+      - admin leave control
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - employeeId
+              - leaveId
+              - status
+            properties:
+              employeeId:
+                type: integer
+                example: 1
+                description: Primary key and unique identifier of the employee
+              leaveId:
+                type: integer
+                example: 1
+                description: leave primary unique key
+              status:
+                type: string
+                enum:
+                  - approve
+                  - reject
+                example: approve
+
+    responses:
+      "200":
+        description: Leave status updated successfully
+      "500":
+        description: Internal server error

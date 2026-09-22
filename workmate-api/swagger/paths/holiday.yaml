@@ -1,0 +1,19 @@
+/workmate/admin/create-holiday:
+  post:
+    summary: Create a holiday
+    description: for a company (Admin only)
+    tags:
+      - Holiday
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Holiday"
+    responses:
+      "201":
+        description: Holiday created successfully
+      "400":
+        description: "Validation error"
+      "500":
+        description: Internal server error

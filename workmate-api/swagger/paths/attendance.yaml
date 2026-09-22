@@ -1,0 +1,55 @@
+#Attendance clock in
+/workmate/employee/attendance/clock-in:
+  post:
+    summary: Employee Clock In
+    description: an employee clocks in, the data is sent from req.user
+    tags:
+      - Attendance
+    responses:
+      "201":
+        description: Attendance marked succesfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                success:
+                  type: boolean
+                  example: true
+                message:
+                  type: string
+                  example: clocked in succesfully
+      "400":
+        description: Validation error
+      "401":
+        description: Unathorized access
+      "500":
+        description: Internal server error
+
+#Attendance clock out
+/workmate/employee/attendance/clock-out:
+  put:
+    summary: Employee Clock out
+    description: an employee clocks out, the data is sent from req.user
+    tags:
+      - Attendance
+    responses:
+      "201":
+        description: Attendance marked succesfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                success:
+                  type: boolean
+                  examle: true
+                message:
+                  type: string
+                  example: clocked out succesfully
+      "400":
+        description: Validation error
+      "401":
+        description: Unathorized access
+      "500":
+        description: Internal server error
