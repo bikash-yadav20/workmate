@@ -43,6 +43,21 @@ const Company = sequelize.define("Company", {
       max: 28,
     },
   },
+  clockInTime: {
+    type: DataTypes.TIME,
+    allowNull: false,
+    defaultValue: "09:00:00",
+  },
+
+  clockOutTime: {
+    type: DataTypes.TIME,
+    allowNull: false,
+    defaultValue: "17:00:00",
+  },
+  gracePeriodMinutes: {
+    type: DataTypes.INTEGER,
+    defaultValue: 15,
+  },
 });
 
 module.exports = Company;

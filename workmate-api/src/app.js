@@ -13,6 +13,7 @@ const adminLeaveRoute = require("./modules/leaveModule/adminLeaveRoutes");
 const adminHolidayRoute = require("./modules/holidayModule/adminHolidayRoute");
 const deductionRulesRoute = require("./modules/deductionRulesModule/deductionRulesRoute");
 const adminAdvancePaymentRoute = require("./modules/advancePaymentModule/adminAdvancePaymentRoute");
+const adminSalaryRecordsRoute = require("./modules/salaryRecordModule/adminSalaryRecordRoute");
 
 const app = express();
 app.use(cookieParser());
@@ -47,6 +48,9 @@ app.use("/workmate/admin/", deductionRulesRoute);
 
 //advance payment route
 app.use("/workmate/admin/", adminAdvancePaymentRoute);
+
+//generate monthly salary report
+app.use("/workmate/admin/", adminSalaryRecordsRoute);
 
 //employee attendance routes
 app.use("/workmate/employee/attendance/", employeAttandanceRoute);

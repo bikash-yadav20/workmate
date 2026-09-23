@@ -33,7 +33,7 @@ const SalaryPeriod = sequelize.define("SalaryPeriod", {
   },
 
   status: {
-    type: DataTypes.ENUM("draft", "pending", "paid"),
+    type: DataTypes.ENUM("draft", "processing", "paid"),
     allowNull: "false",
   },
 });
