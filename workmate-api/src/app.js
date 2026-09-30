@@ -16,6 +16,22 @@ const adminAdvancePaymentRoute = require("./modules/advancePaymentModule/adminAd
 const adminSalaryRecordsRoute = require("./modules/salaryRecordModule/adminSalaryRecordRoute");
 
 const app = express();
+
+const allowedOrigins = ["http://localhost:3000", "http://192.168.1.2:3000"];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Blocked by cors"));
+      }
+    },
+  }),
+);
+
 app.use(cookieParser());
 app.use(express.json());
 //check health status

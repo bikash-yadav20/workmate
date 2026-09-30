@@ -10,7 +10,12 @@ export default function CompanyStep({
   const { setCurrentStep, formData, handleNestedChange } = useRegisterForm();
 
   // handle form submit to show loading icon and mount admin step component
-  const handleSubmit = 1;
+  const handleNextStep = (e) => {
+    alert("Button clicked");
+    e.preventDefault();
+    setCurrentStep(2);
+    setAdminStepActive(true);
+  };
 
   useEffect(() => {
     console.log("form data", formData);
@@ -26,14 +31,7 @@ export default function CompanyStep({
       </div>
 
       {/* Form */}
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          setCurrentStep(2);
-          setAdminStepActive(true);
-        }}
-        className="flex flex-col gap-3"
-      >
+      <div className="flex flex-col gap-3">
         {/* Company Name */}
         <div className="flex flex-col gap-1">
           <label
@@ -44,7 +42,6 @@ export default function CompanyStep({
           </label>
           <input
             id="companyName"
-            name="companyName"
             type="text"
             value={formData.companyData.companyName}
             onChange={(e) =>
@@ -65,7 +62,6 @@ export default function CompanyStep({
           </label>
           <input
             id="companyEmail"
-            name="companyEmail"
             type="email"
             value={formData.companyData.companyEmail}
             onChange={(e) =>
@@ -86,7 +82,6 @@ export default function CompanyStep({
           </label>
           <input
             id="password"
-            name="password"
             type="password"
             placeholder="••••••••"
             value={formData.companyData.password}
@@ -107,7 +102,6 @@ export default function CompanyStep({
           </label>
           <input
             id="address"
-            name="address"
             type="text"
             placeholder="e.g. 123 Main St, New York, NY"
             value={formData.companyData.companyAddress}
@@ -132,7 +126,6 @@ export default function CompanyStep({
           </label>
           <input
             id="salaryPeriodStart"
-            name="salaryPeriodStart"
             type="number"
             min="1"
             max="28"
@@ -151,13 +144,14 @@ export default function CompanyStep({
 
         {/* Submit Button */}
         <button
-          type="submit"
-          className="mt-1 w-full py-2.5 px-4 bg-emerald-500 hover:bg-emerald-600 text-white font-medium text-sm rounded-lg flex items-center justify-center gap-2 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 cursor-pointer"
+          type="button"
+          onClick={handleNextStep}
+          className="mt-1 w-full py-2.5 px-4  bg-emerald-500 hover:bg-emerald-600 text-white font-medium text-sm rounded-lg flex items-center justify-center gap-2 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 cursor-pointer"
         >
-          <span>Continue to admin setup</span>
+          Continue to admin setup
           <FaArrowRight className="text-xs" />
         </button>
-      </form>
+      </div>
     </div>
   );
 }

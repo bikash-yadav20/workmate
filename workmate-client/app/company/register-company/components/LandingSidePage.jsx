@@ -3,8 +3,11 @@ import { company, features } from "@/app/constants/company/company";
 
 export default function LandingSidePage() {
   return (
-    <div className="flex flex-col  items-center md:items-start h-full md:min-h-screen w-screen md:w-[50vw] bg-radial-glow bg-slate-950 p-8">
+    <div className="flex flex-col  items-center md:items-start h-full md:min-h-screen w-full md:w-[50vw] bg-radial-glow bg-slate-950 p-8">
       {/* logo and name */}
+      <button className="text-white" onClick={() => alert("clicked")}>
+        Click me
+      </button>
       <div className="flex items-center -ml-10">
         <Image
           src={company.companyLogo.logo}

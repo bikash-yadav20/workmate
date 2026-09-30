@@ -385,6 +385,7 @@ export default function ({ setAdminStepActive }) {
             onClick={(e) => {
               e.preventDefault();
               setAdminStepActive(false);
+              setCurrentStep(1);
             }}
           >
             <FaArrowLeft className="text-xs" />
