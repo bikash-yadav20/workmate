@@ -2,10 +2,10 @@ const loginService = require("./loginService");
 
 const login = async (req, res) => {
   try {
-    const { password, email, employeeId } = req.body;
+    const { password, identifier } = req.body;
 
     // Validate presence of required fields
-    if (!password || (!email && !employeeId)) {
+    if (!password || !identifier) {
       return res.status(400).json({
         success: false,
         message: "Password and either email or employeeId are required.",
@@ -13,7 +13,7 @@ const login = async (req, res) => {
     }
     const loginUser = await loginService.login({
       password: password,
-      identifier: email || employeeId,
+      identifier: identifier,
     });
 
     res.cookie("workmate", loginUser.token, {
@@ -37,4 +37,21 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { login };
+//get self data for frontend route validation
+const authMe = async (req, res) => {
+  try {
+    const { companyId, employeeId, role, email } = req.user;
+
+    return res.status(200).json({
+      success: true,
+      user: { companyId, employeeId, role, email },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+module.exports = { login, authMe };

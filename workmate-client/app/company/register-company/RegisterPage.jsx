@@ -21,7 +21,11 @@ export default function Page() {
           <div className="w-full max-w-md flex flex-col items-center gap-6 my-auto, py-8">
             <StepProgress />
             {isAdminStepActive ? (
-              <AdminStep setAdminStepActive={setAdminStepActive} />
+              <AdminStep
+                setAdminStepActive={setAdminStepActive}
+                setIsLoading={setIsLoading}
+                isLoading={isLoading}
+              />
             ) : (
               <CompanyStep setAdminStepActive={setAdminStepActive} />
             )}

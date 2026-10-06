@@ -1,0 +1,49 @@
+/workmate/admin/attendance-logs:
+  get:
+    summary: Get daily attendance and leave logs for dashboard
+    tags:
+      - attendance logs
+    responses:
+      "200":
+        description: Successfully fetched attendance logs
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                success:
+                  type: boolean
+                  example: true
+                message:
+                  type: string
+                  example: "Success"
+                dashboardData:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      employeeId:
+                        type: integer
+                        example: 1024
+                      fullName:
+                        type: string
+                        example: "Sarah Chen"
+                      role:
+                        type: string
+                        example: "Senior Engineer"
+                      department:
+                        type: string
+                        example: "Engineering"
+                      status:
+                        type: string
+                        enum: [Present, Late, Leave, Absent, Holiday]
+                        example: "Present"
+                      checkIn:
+                        type: string
+                        example: "08:41 AM"
+                      avatar:
+                        type: string
+                        nullable: true
+                        example: "https://example.com/avatars/sarah.jpg"
+      "500":
+        description: Internal server error

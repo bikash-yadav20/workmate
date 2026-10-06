@@ -1,0 +1,43 @@
+/workmate/admin/attendeesCount:
+  get:
+    summary: get days attendees attendeesCount
+    description: This route fetches daily present employees count
+    tags:
+      - attendeesCount
+    security:
+      - cookieAuth: []
+    responses:
+      "200":
+        description: present employees count fetched
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                success:
+                  type: boolean
+                  example: true
+                message:
+                  type: string
+                  example: attendees count fetched successfully
+                data:
+                  type: object
+                  properties:
+                    attendeesCount:
+                      type: number
+                      example: 2
+      "401":
+        description: Unauthorized - Invalid or missing token
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                success:
+                  type: boolean
+                  example: false
+                message:
+                  type: string
+                  example: "Authentication required: No user or role found"
+      "500":
+        description: Internal server error

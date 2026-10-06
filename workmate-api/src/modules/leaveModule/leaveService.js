@@ -1,5 +1,6 @@
 const { Op } = require("sequelize");
 const EmployeeLeave = require("./employeeLeaveModel");
+const SalaryPeriod = require("../salaryPeriodModule/salaryPeriodModel");
 
 // apply for leave(Employee)
 const applyLeave = async (leaveData) => {
@@ -130,9 +131,45 @@ const leaveAdminService = {
   },
 };
 
+//fetch all leave from a salary period
+const fetchLeavesService = async (companyId) => {
+  try {
+    const activeSalaryPeriod = await SalaryPeriod.findOne({
+      where: {
+        companyId,
+        status: "draft",
+      },
+      order: [["startDate", "DESC"]],
+    });
+
+    if (!activeSalaryPeriod) {
+      throw new Error("No active draft salary period found");
+    }
+    const leaves = await EmployeeLeave.findAll({
+      where: {
+        companyId: companyId,
+        fromDate: {
+          [Op.lte]: activeSalaryPeriod.endDate,
+        },
+        toDate: {
+          [Op.gte]: activeSalaryPeriod.startDate,
+        },
+      },
+
+      order: [["fromDate", "ASC"]],
+    });
+
+    return leaves;
+  } catch (error) {
+    console.error("Error fetching leaves for salary period:", error);
+    throw error;
+  }
+};
+
 module.exports = {
   applyLeave,
   changeLeavetype,
   withdrawLeaveService,
   leaveAdminService,
+  fetchLeavesService,
 };

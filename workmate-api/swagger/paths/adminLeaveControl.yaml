@@ -35,3 +35,30 @@
         description: Leave status updated successfully
       "500":
         description: Internal server error
+
+# get all leave a active salary period range
+/workmate/admin/leaves:
+  get:
+    summary: Get all leaves
+    description: Get all leaves from a active salary period
+    tags:
+      - admin leave control
+    responses:
+      "200":
+        description: All leaves fetched successfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                success:
+                  type: boolean
+                  example: true
+                message:
+                  type: boolean
+                  example: All leaves fetched successfully
+                data:
+                  $ref: "#/components/schemas/employeeLeave"
+
+      "500":
+        description: Internal server error

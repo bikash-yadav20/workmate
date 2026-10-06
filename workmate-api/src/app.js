@@ -14,10 +14,16 @@ const adminHolidayRoute = require("./modules/holidayModule/adminHolidayRoute");
 const deductionRulesRoute = require("./modules/deductionRulesModule/deductionRulesRoute");
 const adminAdvancePaymentRoute = require("./modules/advancePaymentModule/adminAdvancePaymentRoute");
 const adminSalaryRecordsRoute = require("./modules/salaryRecordModule/adminSalaryRecordRoute");
+const adminAttendanceRoute = require("./modules/attendanceModule/adminAttendanceRoute");
+const employeeRoute = require("./modules/employeeModule/employeeRoute");
 
 const app = express();
 
-const allowedOrigins = ["http://localhost:3000", "http://192.168.1.2:3000"];
+const allowedOrigins = [
+  "http://localhost:3000",
+  "http://localhost:8080",
+  "http://192.168.1.2:3000",
+];
 
 app.use(
   cors({
@@ -29,6 +35,7 @@ app.use(
         callback(new Error("Blocked by cors"));
       }
     },
+    credentials: true,
   }),
 );
 
@@ -47,11 +54,15 @@ app.use("/company", companyRoute);
 app.use("/workmate", adminEmployeeRoute);
 //login
 app.use("/workmate", loginRoute);
+
 //create salary perids
 app.use("/workmate", adminSalaryPeriodRoute);
 
 //employee leave routes for employee
 app.use("/workmate/employee/", employeeLeaveRoute);
+
+//get self data
+app.use("/workmate/employee-profile/", employeeRoute);
 
 //admin leave route
 app.use("/workmate/admin/", adminHolidayRoute);
@@ -68,6 +79,10 @@ app.use("/workmate/admin/", adminAdvancePaymentRoute);
 //generate monthly salary report
 app.use("/workmate/admin/", adminSalaryRecordsRoute);
 
+//get daily attendeesCount (admin)
+app.use("/workmate/admin/", adminAttendanceRoute);
+
 //employee attendance routes
 app.use("/workmate/employee/attendance/", employeAttandanceRoute);
+
 module.exports = app;

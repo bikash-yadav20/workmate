@@ -1,0 +1,50 @@
+/workmate/auth-me:
+  get:
+    summary: Self auth data
+    description: Get self JWT-verified data for frontend route validation
+    tags:
+      - authMe
+    security:
+      - cookieAuth: []
+    responses:
+      "200":
+        description: Self data fetched successfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                success:
+                  type: boolean
+                  example: true
+                message:
+                  type: string
+                  example: "User authenticated successfully"
+                data:
+                  type: object
+                  properties:
+                    employeeId:
+                      type: string
+                      example: "EMP-10293"
+                    email:
+                      type: string
+                      example: "john.doe@company.com"
+                    role:
+                      type: string
+                      example: "admin" # Or "employee"
+                    companyId:
+                      type: string
+                      example: "650c1f2e8f123456789abcde"
+      "401":
+        description: Unauthorized - Invalid or missing token
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                success:
+                  type: boolean
+                  example: false
+                message:
+                  type: string
+                  example: "Authentication required: No user or role found"

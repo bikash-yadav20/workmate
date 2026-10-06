@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { registerCompany } from "@/services/apiService";
+import { registerCompany } from "@/services/company/apiService";
 
 const RegisterContext = createContext();
 
@@ -31,6 +31,13 @@ export default function RegisterProvider({ children }) {
       role: "",
       department: "",
 
+      // employee salary details
+      salary: {
+        basicSalary: "",
+        providendFund: "",
+        allowance: "",
+      },
+
       // employee address
       address: {
         accountNumber: "",
@@ -40,11 +47,6 @@ export default function RegisterProvider({ children }) {
         state: "",
         country: "",
       },
-
-      // employee salary details
-      basicSalary: "",
-      providendFund: "",
-      allowance: "",
     },
   });
 
@@ -73,13 +75,34 @@ export default function RegisterProvider({ children }) {
     }));
   };
 
+  //deeply nested fields updated admin salary data
+
+  const handleAdminSalaryChange = (field, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      adminData: {
+        ...prev.adminData,
+        salary: {
+          ...prev.adminData.salary,
+          [field]: value,
+        },
+      },
+    }));
+  };
+
   //send data to api
   const handleSubmit = async () => {
     try {
       const responseData = await registerCompany(formData);
-      console.log(responseData);
+      return responseData;
     } catch (error) {
-      console.log(error.message);
+      return {
+        success: false,
+        message:
+          error?.response?.data?.message ||
+          error.message ||
+          "Something went wrong",
+      };
     }
   };
 
@@ -92,6 +115,7 @@ export default function RegisterProvider({ children }) {
         setFormData,
         handleNestedChange,
         handleAdminAddressChange,
+        handleAdminSalaryChange,
         handleSubmit,
       }}
     >

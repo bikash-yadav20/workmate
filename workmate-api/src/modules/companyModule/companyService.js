@@ -8,6 +8,19 @@ const createCompany = async (companyData, adminData) => {
   if (!companyData) throw new Error("Company data is required");
   if (!adminData) throw new Error("Admin details is required");
 
+  const requiredField = [
+    "companyName",
+    "companyEmail",
+    "companyAddress",
+    "salaryPeriodStartDate",
+  ];
+
+  for (const field of requiredField) {
+    if (!companyData[field]) {
+      throw new Error(`${field} is required in company step`);
+    }
+  }
+
   return await sequelize.transaction(async (t) => {
     const existingCompany = await Company.findOne({
       where: { companyEmail: companyData.companyEmail },

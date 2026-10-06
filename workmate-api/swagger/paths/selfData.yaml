@@ -1,0 +1,75 @@
+paths:
+  /workmate/employee-profile/self-data:
+    get:
+      summary: Employee self display data
+      description: Retrieves profile display information (full name, username, and profile picture) for the authenticated employee
+      tags:
+        - Employee
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Employee self data fetched successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Employee data fetched successfully"
+                  data:
+                    type: object
+                    properties:
+                      fullName:
+                        type: string
+                        example: "Jordan Carter"
+                      username:
+                        type: string
+                        example: "jordancarter"
+                      profilePicture:
+                        type: string
+                        nullable: true
+                        example: "https://example.com/uploads/profiles/jordan.jpg"
+        "401":
+          description: Unauthorized - Invalid or missing token/credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Unauthorized access! Missing credentials"
+        "404":
+          description: Not Found - Employee record does not exist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "User not found"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Internal server error"

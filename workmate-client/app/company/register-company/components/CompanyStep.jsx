@@ -11,15 +11,11 @@ export default function CompanyStep({
 
   // handle form submit to show loading icon and mount admin step component
   const handleNextStep = (e) => {
-    alert("Button clicked");
     e.preventDefault();
     setCurrentStep(2);
     setAdminStepActive(true);
   };
 
-  useEffect(() => {
-    console.log("form data", formData);
-  }, [formData]);
   return (
     <div className="w-full max-w-md mx-auto p-4 bg-white rounded-xl shadow-sm">
       {/* Header */}
@@ -44,6 +40,7 @@ export default function CompanyStep({
             id="companyName"
             type="text"
             value={formData.companyData.companyName}
+            required
             onChange={(e) =>
               handleNestedChange("companyData", "companyName", e.target.value)
             }
@@ -64,6 +61,7 @@ export default function CompanyStep({
             id="companyEmail"
             type="email"
             value={formData.companyData.companyEmail}
+            required
             onChange={(e) =>
               handleNestedChange("companyData", "companyEmail", e.target.value)
             }
@@ -84,6 +82,7 @@ export default function CompanyStep({
             id="password"
             type="password"
             placeholder="••••••••"
+            required
             value={formData.companyData.password}
             onChange={(e) =>
               handleNestedChange("companyData", "password", e.target.value)
@@ -104,6 +103,7 @@ export default function CompanyStep({
             id="address"
             type="text"
             placeholder="e.g. 123 Main St, New York, NY"
+            required
             value={formData.companyData.companyAddress}
             onChange={(e) =>
               handleNestedChange(
@@ -130,6 +130,7 @@ export default function CompanyStep({
             min="1"
             max="28"
             placeholder="e.g. 1 (between 1-28)"
+            required
             value={formData.companyData.salaryPeriodStartDate}
             onChange={(e) =>
               handleNestedChange(

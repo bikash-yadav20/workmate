@@ -1,12 +1,14 @@
 import { FaArrowRight, FaArrowLeft, FaSpinner } from "react-icons/fa";
 import { useRegisterForm } from "../context/RegisterContext";
-export default function ({ setAdminStepActive }) {
+import { toast } from "react-toastify";
+
+export default function ({ setAdminStepActive, isLoading, setIsLoading }) {
   const {
     setCurrentStep,
     formData,
-    setFormData,
     handleNestedChange,
     handleAdminAddressChange,
+    handleAdminSalaryChange,
     handleSubmit,
   } = useRegisterForm();
   return (
@@ -21,9 +23,22 @@ export default function ({ setAdminStepActive }) {
 
       {/* Form */}
       <form
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           e.preventDefault();
-          handleSubmit();
+          setIsLoading(true);
+          try {
+            const res = await handleSubmit();
+
+            if (res.success) {
+              toast.success("Company and admin registered successfully");
+            } else {
+              toast.error(res?.message || "Internal server or network error");
+            }
+          } catch (error) {
+            toast.error("Internal server or network error");
+          } finally {
+            setIsLoading(false);
+          }
         }}
         className="flex flex-col gap-3"
       >
@@ -201,9 +216,9 @@ export default function ({ setAdminStepActive }) {
               type="number"
               min={0}
               required
-              value={formData.adminData.basicSalary}
+              value={formData.adminData.salary.basicSalary}
               onChange={(e) =>
-                handleNestedChange("adminData", "basicSalary", e.target.value)
+                handleAdminSalaryChange("basicSalary", e.target.value)
               }
               placeholder="Enter basic salary"
               className="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-800 text-xs placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition"
@@ -221,9 +236,9 @@ export default function ({ setAdminStepActive }) {
               name="providendFund"
               type="number"
               min={0}
-              value={formData.adminData.providendFund}
+              value={formData.adminData.salary.providendFund}
               onChange={(e) =>
-                handleNestedChange("adminData", "providendFund", e.target.value)
+                handleAdminSalaryChange("providendFund", e.target.value)
               }
               placeholder="Enter pf amount"
               className="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-800 text-xs placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition"
@@ -241,9 +256,9 @@ export default function ({ setAdminStepActive }) {
               name="allowance"
               type="number"
               min={0}
-              value={formData.adminData.allowance}
+              value={formData.adminData.salary.allowance}
               onChange={(e) =>
-                handleNestedChange("adminData", "allowance", e.target.value)
+                handleAdminSalaryChange("allowance", e.target.value)
               }
               placeholder="Enter allowance amount"
               className="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-800 text-xs placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition"
@@ -395,8 +410,12 @@ export default function ({ setAdminStepActive }) {
             type="submit"
             className="mt-1 w-full py-2.5 px-4 bg-emerald-500 hover:bg-emerald-600 text-white font-medium text-sm rounded-lg flex items-center justify-center gap-2 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 cursor-pointer"
           >
-            <span>Register</span>
-            <FaArrowRight className="text-xs" />
+            {!isLoading ? <span>Register</span> : ""}
+            {!isLoading ? (
+              <FaArrowRight className="text-xs" />
+            ) : (
+              <FaSpinner className="text-lg" />
+            )}
           </button>
         </div>
       </form>

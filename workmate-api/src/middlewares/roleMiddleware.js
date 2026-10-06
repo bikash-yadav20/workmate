@@ -1,16 +1,16 @@
 const authorize = (...userRole) => {
   return (req, res, next) => {
-    if (!req.user || req.user.rol) {
+    if (!req.user || !req.user.role) {
       return res.status(401).json({
         status: false,
-        message: "No role or user found",
+        message: "Authentication required: No user or role found",
       });
     }
-    const hasPermissiom = userRole.includes(req.user.role);
-    if (!hasPermissiom) {
+    const hasPermission = userRole.includes(req.user.role);
+    if (!hasPermission) {
       return res.status(401).json({
         success: false,
-        message: "unathorized access",
+        message: "Forbidden: You do not have permission to perform this action",
       });
     }
 
