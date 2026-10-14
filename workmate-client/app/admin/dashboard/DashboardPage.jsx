@@ -1,13 +1,18 @@
 "use client";
 
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { employeesCount } from "@/services/admin/employees/employeeCountApi";
 import { attendeesCount } from "@/services/admin/employees/attendeesCount";
 import DashboardMetrics from "./components/DashboardMetrics";
 import { fetchLeaves } from "@/services/admin/leaves/fetchLeaves";
-import DashboardNav from "./components/DashboardNav";
+
 import { authenticateContext } from "@/app/context/auth/AuthContext";
+import DailyAttendance from "./components/DailyAttendance";
+import QuickActions from "./components/QuickActions";
+import AttendanceSummary from "./components/AttendanceSummary";
+import Navbar from "@/app/components/Navbar";
+import { userInfoContext } from "@/app/context/userContext/UserContext";
 
 export default function DashboardPage() {
   const [employeesCountStatus, setEmployeesCountStatus] = useState({});
@@ -16,29 +21,24 @@ export default function DashboardPage() {
   const [leavesCount, setLeavesCount] = useState(0);
 
   const { user } = authenticateContext();
-
-  //get all employee count on basis of there status and present employees (on componen mount)
+  const { userInfo } = userInfoContext();
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        // fetch total employees
         const totalEmployees = await employeesCount();
-        console.log("Total employees", totalEmployees);
+
         setEmployeesCountStatus({
           totalEmployeesCount: totalEmployees.totalEmployeesCount,
           activeEmployeesCount: totalEmployees.activeEmployeesCount,
           exitedEmployeesCount: totalEmployees.exitedEmployeesCount,
         });
 
-        // fetch present attendees
         const presentCount = await attendeesCount();
         const present = presentCount.attendanceCount;
         setTotalPresent(present);
 
-        //Safely calculate absent using the fresh activeEmployeesCount value
         setTotalAbsent(totalEmployees.activeEmployeesCount - present);
 
-        //fetch pending leaves count
         const leaves = await fetchLeaves();
         setLeavesCount(leaves.pendingLeavesCount);
       } catch (error) {
@@ -49,18 +49,28 @@ export default function DashboardPage() {
     fetchDashboardData();
   }, []);
 
-  useEffect(() => {
-    console.log("active employees", employeesCountStatus);
-  }, [employeesCountStatus]);
+  const description = `Welcome back, ${userInfo?.fullName}. Here's what's happening today.`;
+
   return (
-    <div>
-      <DashboardNav user={user} />
+    <div className="p-4 sm:p-6 max-w-7xl mx-auto">
+      <Navbar heading={"Dashboard"} description={description} />
       <DashboardMetrics
         employeesCountStatus={employeesCountStatus}
         totalAbsent={totalAbsent}
         totalPresent={totalPresent}
         leavesCount={leavesCount}
       />
+
+      {/* Grid Layout: DailyAttendance (2 cols) + QuickActions (1 col) */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
+        <div className="lg:col-span-2">
+          <DailyAttendance />
+        </div>
+        <div className="flex flex-col gap-4">
+          <QuickActions />
+          <AttendanceSummary />
+        </div>
+      </div>
     </div>
   );
 }

@@ -16,6 +16,7 @@ const adminAdvancePaymentRoute = require("./modules/advancePaymentModule/adminAd
 const adminSalaryRecordsRoute = require("./modules/salaryRecordModule/adminSalaryRecordRoute");
 const adminAttendanceRoute = require("./modules/attendanceModule/adminAttendanceRoute");
 const employeeRoute = require("./modules/employeeModule/employeeRoute");
+const errorHandler = require("./middlewares/errorHandler");
 
 const app = express();
 
@@ -84,5 +85,8 @@ app.use("/workmate/admin/", adminAttendanceRoute);
 
 //employee attendance routes
 app.use("/workmate/employee/attendance/", employeAttandanceRoute);
+
+/*Error handler */
+app.use(errorHandler);
 
 module.exports = app;

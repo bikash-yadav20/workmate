@@ -1,30 +1,33 @@
-import { userInfoContext } from "@/app/context/userContext/UserContext";
 import { Bell } from "lucide-react";
+import { dateFormatter } from "@/app/utils/date";
+import { useEffect, useState } from "react";
 
-export default function DashboardNav() {
-  const { userInfo } = userInfoContext();
+export default function Navbar({ heading, description }) {
+  const [mounted, setMounted] = useState(false);
 
+  //the date and time will only be rendered once component is mounted
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   return (
     <header className="flex flex-col sm:flex-row w-full items-start sm:items-center justify-between gap-4 p-4 mb-2">
       {/* Left section: Title & Subtitle */}
       <div>
         <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
-          Dashboard
+          {heading}
         </h1>
-        <p className="text-sm text-slate-500 mt-0.5">
-          Welcome back, {userInfo?.fullName}. Here's what's happening today.
-        </p>
+        <p className="text-sm text-slate-500 mt-0.5">{description}</p>
       </div>
 
       {/* Right section: Time, Notification, and User Avatar */}
       <div className="flex items-center gap-4 self-end sm:self-auto">
         {/* Date & Time */}
-        <div className="text-right hidden xs:block">
+        <div className="text-right  xs:block">
           <p className="text-sm font-semibold text-slate-900 leading-tight">
-            10:29 AM
+            {mounted ? dateFormatter.currentTime() : "Loading..."}
           </p>
           <p className="text-xs text-slate-500 leading-tight mt-0.5">
-            Tuesday, October 6
+            {mounted ? dateFormatter.currentDateLong() : "Loading..."}
           </p>
         </div>
 
@@ -37,8 +40,16 @@ export default function DashboardNav() {
           </div>
 
           {/* User Avatar */}
-          <div className="flex items-center justify-center bg-indigo-600 text-white font-medium text-sm rounded-full w-10 h-10 shadow-sm cursor-pointer select-none">
-            JC
+          <div className="flex flex-col  group ">
+            <div className="flex items-center justify-center bg-indigo-600 text-white font-medium text-sm rounded-full w-10 h-10 shadow-sm cursor-pointer select-none">
+              JC
+            </div>
+            <div className="opacity-0 transition-opacity-300  group-hover:opacity-100 flex flex-col gap-3 absolute mt-12 bg-white border-gray-100 ">
+              <p className="text-sm font-medium cursor-pointer">profile</p>
+              <p className="text-sm font-medium text-red-500 cursor-pointer">
+                Log out
+              </p>
+            </div>
           </div>
         </div>
       </div>

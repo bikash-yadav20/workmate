@@ -155,6 +155,7 @@ const fetchLeavesService = async (companyId) => {
           [Op.gte]: activeSalaryPeriod.startDate,
         },
       },
+      include: ["employee"],
 
       order: [["fromDate", "ASC"]],
     });

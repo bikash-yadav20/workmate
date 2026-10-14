@@ -1,6 +1,6 @@
 const loginService = require("./loginService");
 
-const login = async (req, res) => {
+const login = async (req, res, next) => {
   try {
     const { password, identifier } = req.body;
 
@@ -29,11 +29,7 @@ const login = async (req, res) => {
     });
   } catch (error) {
     console.error("login failed", error);
-    res.status(500).json({
-      success: false,
-      message: "login failed",
-      error: error.message,
-    });
+    next(error);
   }
 };
 

@@ -6,13 +6,24 @@ import {
   XCircle,
   Clock,
 } from "lucide-react";
+import { useDashboardContext } from "@/app/admin/dashboard/context/DashboardContext";
+import { useEffect, useState } from "react";
 
 export default function DashboardMetrics({
   employeesCountStatus,
   totalPresent,
-  totalAbsent,
+
   leavesCount,
 }) {
+  const { attendanceData } = useDashboardContext();
+  const [totalAbsent, setTotalAbsent] = useState(0);
+
+  useEffect(() => {
+    if (!attendanceData || attendanceData.length === 0) return;
+    let count = 0;
+    const absentLogs = attendanceData.filter((a) => a.status === "Absent");
+    setTotalAbsent(absentLogs.length);
+  }, [attendanceData]);
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-6">
       {/* 1. Total Employees */}

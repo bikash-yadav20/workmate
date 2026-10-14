@@ -12,6 +12,13 @@ const createEmployee = async (employeeData, options = {}) => {
   const executeCreate = async (t) => {
     const { password, companyId, address, ...restEmployeeData } = employeeData;
 
+    if (!password) {
+      const statusCode = 400;
+      const error = new Error("Password is required");
+      error.statusCode = 400;
+      throw error;
+    }
+
     //encrypt password
     const hashPassword = await bcrypt.hash(password, 10);
 

@@ -16,6 +16,7 @@ export const employeesCount = async () => {
   );
 
   return {
+    responseData,
     totalEmployeesCount: activeEmployees.length + exitedEmployees.length,
     activeEmployeesCount: activeEmployees.length,
     exitedEmployeesCount: exitedEmployees.length,

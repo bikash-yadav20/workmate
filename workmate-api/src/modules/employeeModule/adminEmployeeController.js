@@ -1,7 +1,7 @@
 const employeeService = require("./employeeService");
 const jwt = require("jsonwebtoken");
 
-const createEmployee = async (req, res) => {
+const createEmployee = async (req, res, next) => {
   try {
     const companyId = req.user.companyId;
 
@@ -18,13 +18,11 @@ const createEmployee = async (req, res) => {
 
     res.status(201).json({
       success: true,
+      message: "Employee created successfully",
       data: employee,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    next(error);
   }
 };
 

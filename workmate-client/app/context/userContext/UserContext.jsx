@@ -19,7 +19,6 @@ export default function UserContextProvider({ children }) {
     try {
       setLoading(true);
       const result = await selfDataApi();
-      console.log("iam result", result);
 
       if (result?.success) {
         setUserInfo(result.employeeData);

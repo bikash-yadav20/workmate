@@ -9,6 +9,7 @@ export default function LoginForm() {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const [redHighlight, setRedHighlight] = useState(false);
 
   //login function from auth context
   const { login } = authenticateContext();
@@ -24,6 +25,9 @@ export default function LoginForm() {
 
       if (response.success) {
         toast.success("Login succesfull");
+      } else {
+        toast.error(response.error);
+        setRedHighlight(true);
       }
     } catch (error) {
       toast.error("Login failed", error.message);
@@ -67,7 +71,7 @@ export default function LoginForm() {
             />
           </svg>
           <input
-            className="w-full outline-none bg-transparent py-2.5 px-1"
+            className={`w-full outline-none bg-transparent py-2.5 px-1 ${redHighlight ? "border border-red-500 focus:ring-red-500" : ""}`}
             type="text"
             placeholder="Email or Employee Id"
             value={identifier}
@@ -91,7 +95,11 @@ export default function LoginForm() {
             />
           </svg>
           <input
-            className="w-full outline-none bg-transparent py-2.5 px-1"
+            className={`w-full bg-transparent py-2.5 px-1 outline-none ${
+              redHighlight
+                ? "border border-red-500 focus:ring-1 focus:ring-red-500"
+                : ""
+            }`}
             type="password"
             placeholder="Password"
             value={password}
