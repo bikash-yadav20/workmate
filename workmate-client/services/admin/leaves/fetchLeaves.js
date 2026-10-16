@@ -10,6 +10,7 @@ export const fetchLeaves = async () => {
   );
 
   return {
+    success: getleaves.success,
     leaves: getleaves.leaves,
     pendingLeavesCount: leavesCount.length,
   };
