@@ -211,8 +211,9 @@ export default function LeaveCards() {
                     <button
                       onClick={() =>
                         handleUpdateStatus(
-                          leave.id,
                           leave.employee?.id,
+                          leave.id,
+
                           "reject",
                         )
                       }
@@ -223,8 +224,9 @@ export default function LeaveCards() {
                     <button
                       onClick={() =>
                         handleUpdateStatus(
-                          leave.id,
                           leave.employee?.id,
+                          leave.id,
+
                           "approve",
                         )
                       }
