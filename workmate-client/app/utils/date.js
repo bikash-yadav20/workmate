@@ -14,4 +14,11 @@ export const dateFormatter = {
       day: "numeric",
     });
   },
+
+  // formate as ISO 8601 -- yyyy-mm-dd
+  isoFormatPattern: function (date) {
+    const rawDate = date.toLocaleDateString();
+    const formattedDate = rawDate.split("/").reverse().join("-");
+    return formattedDate;
+  },
 };

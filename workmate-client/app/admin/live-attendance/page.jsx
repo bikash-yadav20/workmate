@@ -6,7 +6,6 @@ import Navbar from "@/app/components/Navbar";
 
 export default function page() {
   const { attendanceData } = useDashboardContext();
-  console.log("attendance data", attendanceData);
 
   const totalPresent = attendanceData.filter(
     (e) => e.status?.toLowerCase() === "present",

@@ -1,4 +1,4 @@
-import Provider from "./dashboard/components/contextProvider/Provider";
+import Provider from "./contextProvider/Provider";
 import Sidebar from "./sidebar/Sidebar";
 
 export default function RootLayout({ children }) {
