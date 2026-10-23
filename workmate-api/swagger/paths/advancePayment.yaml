@@ -19,3 +19,26 @@
         description: Unathorized access! Invalid token
       "500":
         description: Internal server error
+
+# get advance history
+/workmate/admin/advance-history:
+  get:
+    summary: Get advance payments history
+    description: This route takes salary period in query and fetchs advance payment history
+    tags:
+      - Advance payment
+    parameters:
+      - name: salaryPeriod
+        in: query
+        description: The salary period to filter advance payments
+        required: true
+        schema:
+          type: string
+          example: "2026-10-14 - 2026-11-15"
+    responses:
+      "200":
+        description: advance history fetched successfully
+      "400":
+        description: Not found
+      "500":
+        description: Internal server error

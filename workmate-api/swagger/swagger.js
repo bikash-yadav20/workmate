@@ -46,7 +46,7 @@ const options = {
       },
     ],
   },
-  apis: [path.join(__dirname, "paths/*yaml").replace(/\\/g, "/")],
+  apis: [path.join(__dirname, "paths/*.yaml").replace(/\\/g, "/")],
 };
 
 const specs = swaggerJsDoc(options);

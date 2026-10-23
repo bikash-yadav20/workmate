@@ -1,6 +1,7 @@
 const { Op } = require("sequelize");
 const SalaryPeriod = require("../salaryPeriodModule/salaryPeriodModel");
 const AdvancePayment = require("./advancePaymentModel");
+const Employee = require("../employeeModule/employeeModel");
 
 const advancePayService = async (companyId, paymentInfo) => {
   // 1. Authenticate / Validate company ID
@@ -65,4 +66,39 @@ const advancePayService = async (companyId, paymentInfo) => {
   return advancePayment;
 };
 
-module.exports = { advancePayService };
+// get advance history
+const advanceHistoryService = async (salaryPeriod, companyId) => {
+  if (!salaryPeriod.startDate || !salaryPeriod.endDate) {
+    const error = new Error(
+      "Salary period is required to fetch advance history",
+    );
+    error.statusCode = 400;
+    throw error;
+  }
+
+  const response = await AdvancePayment.findAll({
+    where: {
+      companyId,
+      paymentDate: {
+        [Op.gte]: salaryPeriod.startDate,
+        [Op.lte]: salaryPeriod.endDate,
+      },
+    },
+
+    attributes: ["id", "advanceAmount", "reason", "paymentDate"],
+
+    include: [
+      {
+        model: Employee,
+        as: "employee",
+        attributes: ["fullName", "employeeId"],
+      },
+    ],
+
+    order: [["paymentDate", "DESC"]],
+  });
+
+  return response;
+};
+
+module.exports = { advancePayService, advanceHistoryService };

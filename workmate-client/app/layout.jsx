@@ -1,8 +1,8 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import ToastProvider from "./components/react-toastify/ToastProvider";
-import AuthContextProvider from "./context/auth/AuthContext";
-import UserContextProvider from "./context/userContext/UserContext";
+
+import ContextProvider from "./context/ContextProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -14,11 +14,9 @@ export default function RootLayout({ children }) {
   return (
     <html className={inter.variable}>
       <body>
-        <AuthContextProvider>
-          <UserContextProvider>
-            <ToastProvider>{children}</ToastProvider>
-          </UserContextProvider>
-        </AuthContextProvider>
+        <ContextProvider>
+          <ToastProvider>{children}</ToastProvider>
+        </ContextProvider>
       </body>
     </html>
   );

@@ -5,15 +5,19 @@ import { useEmployeeContext } from "../employees/context/EmployeesContext";
 import PayAdvanceModal from "./components/PayAdvanceModal";
 import { useState } from "react";
 import EmployeesModal from "./components/EmployeesModal";
+import { AdvanceHistory } from "./components/AdvanceHistory";
 
 export default function Page() {
   const { employees } = useEmployeeContext();
   const [activeAdvanceModal, setActiveAdvanceModal] = useState(false);
-  const [activeEmployeesModal, setActiveEmployeesModal] = useState(true);
+  const [activeEmployeesModal, setActiveEmployeesModal] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState({
     fullName: "",
     id: "",
   }); //Id and name;
+
+  const [totalAdvances, setTotalAdvances] = useState(0);
+  const [totalAdvanceAmount, setTotalAdvanceAmount] = useState(0);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -23,7 +27,15 @@ export default function Page() {
       />
 
       <div>
-        <AdvanceStats />
+        <AdvanceStats
+          totalAdvances={totalAdvances}
+          totalAdvanceAmount={totalAdvanceAmount}
+        />
+        <AdvanceHistory
+          setActiveEmployeesModal={setActiveEmployeesModal}
+          setTotalAdvances={setTotalAdvances}
+          setTotalAdvanceAmount={setTotalAdvanceAmount}
+        />
       </div>
       <div>
         {activeEmployeesModal && (

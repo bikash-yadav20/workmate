@@ -46,3 +46,65 @@
         description: "Bad Request - Invalid year or month input"
       "500":
         description: "Internal Server Error"
+
+# get all salary periods
+/workmate/fetch-salaryPeriods:
+  get:
+    summary: "Fetches all salary period raws of a company"
+    description: "by fetching salary period start and end date we can easily filter data in frontend"
+    tags:
+      - SalaryPeriod
+    responses:
+      "200":
+        description: "Salary periods fetched successfully"
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                success:
+                  type: boolean
+                  example: true
+                salaryPeriods:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      companyId:
+                        type: integer
+                        example: 1
+                      year:
+                        type: integer
+                        example: 2026
+                      month:
+                        type: integer
+                        example: 10
+                      startDate:
+                        type: string
+                        format: date
+                        example: "2026-10-14"
+                      endDate:
+                        type: string
+                        format: date
+                        example: "2026-11-15"
+                      status:
+                        type: string
+                        example: "draft"
+                      createdAt:
+                        type: string
+                        format: date-time
+                        example: "2026-10-16T13:14:58.000Z"
+                      updatedAt:
+                        type: string
+                        format: date-time
+                        example: "2026-10-16T13:14:58.000Z"
+                message:
+                  type: string
+                  example: "Salary periods fetched successfully"
+      "400":
+        description: "Bad Request - Invalid input"
+      "500":
+        description: "Internal Server Error"

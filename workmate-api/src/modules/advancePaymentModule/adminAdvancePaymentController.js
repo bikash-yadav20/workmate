@@ -1,4 +1,7 @@
-const { advancePayService } = require("./advancePaymentService");
+const {
+  advancePayService,
+  advanceHistoryService,
+} = require("./advancePaymentService");
 
 const advancePay = async (req, res) => {
   const companyId = req.user.companyId;
@@ -19,4 +22,36 @@ const advancePay = async (req, res) => {
   });
 };
 
-module.exports = { advancePay };
+// fetch advance history
+const advanceHistory = async (req, res, next) => {
+  try {
+    const companyId = req.user.companyId;
+    const { salaryPeriod } = req.query;
+
+    const [startDate, endDate] = salaryPeriod.split(" - ");
+
+    const advanceHistory = await advanceHistoryService(
+      { startDate, endDate },
+      companyId,
+    );
+
+    if (advanceHistory.length === 0) {
+      return res.status(200).json({
+        success: true,
+        message: "No advance history found",
+        advanceHistory,
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "fetched advance history successfully",
+      advanceHistory,
+    });
+  } catch (error) {
+    console.error(error.message);
+    next(error);
+  }
+};
+
+module.exports = { advancePay, advanceHistory };
