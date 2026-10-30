@@ -28,6 +28,7 @@ export function AdvanceHistory({
       }
     }
   }, [salaryPeriods, selectedPeriod]);
+
   const [advanceHistory, setAdvanceHistory] = useState([]);
 
   const fetchAdvancePaymentHistory = async (periodToFetch) => {

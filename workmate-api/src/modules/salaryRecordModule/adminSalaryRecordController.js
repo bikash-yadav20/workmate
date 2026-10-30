@@ -1,3 +1,4 @@
+const { employeePayrollService } = require("./employeePayrollService");
 const { generateMonthlySalaryService } = require("./salaryRecordService");
 
 const generateMonthlySalaryReport = async (req, res) => {
@@ -37,4 +38,26 @@ const generateMonthlySalaryReport = async (req, res) => {
   }
 };
 
-module.exports = { generateMonthlySalaryReport };
+// get employee salary report individually
+const getIndividualPayroll = async (req, res, next) => {
+  try {
+    const companyId = req.user.companyId;
+    const { salaryPeriodId, employeeId } = req.query;
+
+    const employeePayroll = await employeePayrollService({
+      companyId,
+      salaryPeriodId,
+      employeeId,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Payroll fetch successfully",
+      employeePayroll,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { generateMonthlySalaryReport, getIndividualPayroll };

@@ -1,6 +1,7 @@
 const express = require("express");
 const {
   generateMonthlySalaryReport,
+  getIndividualPayroll,
 } = require("./adminSalaryRecordController");
 const { protectAuth } = require("../../middlewares/authMiddleware");
 const { authorize } = require("../../middlewares/roleMiddleware");
@@ -14,4 +15,10 @@ router.post(
   generateMonthlySalaryReport,
 );
 
+router.get(
+  "/employee-payroll",
+  protectAuth,
+  authorize("admin"),
+  getIndividualPayroll,
+);
 module.exports = router;

@@ -1,0 +1,23 @@
+# generate monthly salary report by api call
+/workmate/admin/generate-monthly-salary-report:
+  post:
+    summary: Generates monthly salary report
+    description: this is a cron job route generates monthly salary on the end of period, but it can be called manualy too.
+    tags:
+      - salaryRecord
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            salaryPeriodId:
+              type: integer
+              example: 1
+              description: salary period id for which report need to be generated
+    responses:
+      "201":
+        description: report generated successfully
+      "500":
+        description: "Internal Server Error"

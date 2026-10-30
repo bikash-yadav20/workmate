@@ -124,7 +124,7 @@ const generateMonthlySalaryService = async (companyId, salaryPeriodId) => {
       const grossSalary = baseSalary + allowance;
 
       //working days and per day rate calculaion
-      const workingdays = 30;
+      const workingdays = companyClockInAndOutTime.workingdays || 30;
 
       const perDayRate = baseSalary / workingdays;
 
