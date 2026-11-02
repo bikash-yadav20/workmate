@@ -21,3 +21,30 @@
         description: report generated successfully
       "500":
         description: "Internal Server Error"
+
+# get salary payroll for employees individually--admin
+/workmate/admin/employee-payroll:
+  get:
+    summary: Retrieve payroll of a employee
+    tags:
+      - salaryRecord
+    parameters:
+      - name: salaryPeriodId
+        in: query
+        required: true
+        description: filter payroll by salary periods
+        schema:
+          type: integer
+          example: 1
+      - name: employeeId
+        in: query
+        required: true
+        description: filters salary  payroll for selected employee
+        schema:
+          type: integer
+          example: 1
+    responses:
+      "200":
+        description: Payroll fetched successfully
+      "500":
+        description: Internal server error

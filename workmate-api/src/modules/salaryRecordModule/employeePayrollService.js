@@ -155,6 +155,9 @@ const employeePayrollService = async (employeeQuery) => {
     allowance: allowance,
     providentFund: calculationData.salaryDetails.providentFund,
     presentDays: presentDays,
+    paidLeaveDays: totalPaidLeaveDays,
+    weekends: weekends,
+    holidays: totalHolidays,
     lateDays: lateDays,
     absentDays: unpaidDays,
     advanceDeduction: totalAdvancePays,
@@ -164,6 +167,10 @@ const employeePayrollService = async (employeeQuery) => {
     netSalary: Number(
       Math.max(0, basicSalary + allowance - totalDeduction).toFixed(2),
     ),
+
+    companyDetails: {
+      companyName: calculationData.companyClockInAndOutTime?.companyName,
+    },
   };
 };
 
