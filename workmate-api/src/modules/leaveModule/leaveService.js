@@ -5,10 +5,9 @@ const SalaryPeriod = require("../salaryPeriodModule/salaryPeriodModel");
 // apply for leave(Employee)
 const applyLeave = async (leaveData) => {
   const { companyId, employeeId, reason, type, fromDate, toDate } = leaveData;
-  if ((!companyId, !employeeId, !type, !fromDate, !toDate)) {
+  if (!companyId || !employeeId || !type || !fromDate || !toDate) {
     throw new Error("Leave fields can't be empty");
   }
-
   //   check if there is allready a leave in process
   const overlappingLeave = await EmployeeLeave.findOne({
     where: {

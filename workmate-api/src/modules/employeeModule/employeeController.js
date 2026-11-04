@@ -16,7 +16,15 @@ const selfInfo = async (req, res) => {
     const selfData = await Employee.findOne({
       where: { companyId, id: employeeId },
 
-      attributes: ["companyId", "fullName", "email", "phone", "profilePicture"],
+      attributes: [
+        "companyId",
+        "fullName",
+        "role",
+        "department",
+        "email",
+        "phone",
+        "profilePicture",
+      ],
       include: [
         {
           model: Company,

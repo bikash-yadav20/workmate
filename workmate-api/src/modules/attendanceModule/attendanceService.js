@@ -101,7 +101,7 @@ const dailyAttendanceAndLeaveService = async (companyId) => {
     },
   });
 
-  //creating a attendance and leave lookup lookup map
+  //creating a attendance and leave lookup map
   const attendanceMap = new Map(attendanceLogs.map((a) => [a.employeeId, a]));
   const leaveMap = new Map(leaves.map((l) => [l.employeeId, l]));
 

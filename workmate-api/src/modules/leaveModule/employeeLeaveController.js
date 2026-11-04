@@ -22,9 +22,10 @@ const applyLeave = async (req, res) => {
     });
   } catch (error) {
     console.error("server error", error.message);
-    res.status(500).json({
+    // Return a 400 status if it's a validation/business logic error
+    res.status(400).json({
       success: false,
-      message: "Internal server error, failed to create leave",
+      message: error.message || "Internal server error, failed to create leave",
     });
   }
 };

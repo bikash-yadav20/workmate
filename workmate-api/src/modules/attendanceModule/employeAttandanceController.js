@@ -39,4 +39,36 @@ const clockOutHandler = async (req, res) => {
   }
 };
 
-module.exports = { clockInHandler, clockOutHandler };
+// Fetch todays attendance status for self
+const todayAttendanceStatus = async (req, res, next) => {
+  try {
+    //today date
+    const today = new Date().toISOString().slice(0, 10);
+    const { companyId, employeeId } = req.user;
+    const attendance = await Attendance.findOne({
+      where: {
+        companyId,
+        employeeId,
+        workDate: today,
+      },
+    });
+
+    if (!attendance) {
+      return res.status(200).json({
+        success: true,
+        message: "No record found",
+        attendance,
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Attendance status fetched successfully",
+      attendance,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { clockInHandler, clockOutHandler, todayAttendanceStatus };
