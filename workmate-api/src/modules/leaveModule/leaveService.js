@@ -90,7 +90,7 @@ const withdrawLeaveService = async (incomingLeaveData) => {
 };
 
 const leaveAdminService = {
-  //Approve or reject a employee leave
+  //Approve or reject a employee leave--admin
   async leaveStatus(status, toApproveLeaveData) {
     const { companyId, employeeId, leaveId } = toApproveLeaveData;
     if (!companyId || !employeeId || !leaveId) {
@@ -166,10 +166,28 @@ const fetchLeavesService = async (companyId) => {
   }
 };
 
+// fetch applied leaves history employee
+const leaveHistoryService = async (employeeId, companyId) => {
+  if (!employeeId || !companyId) {
+    let error = new Error(
+      "Unauthorized access! Employee id and company id is required!",
+    );
+    error.statusCode = 400;
+  }
+
+  const leaves = await EmployeeLeave.findAll({
+    where: { employeeId, companyId },
+    order: [["id", "DESC"]],
+  });
+
+  return leaves;
+};
+
 module.exports = {
   applyLeave,
   changeLeavetype,
   withdrawLeaveService,
   leaveAdminService,
   fetchLeavesService,
+  leaveHistoryService,
 };

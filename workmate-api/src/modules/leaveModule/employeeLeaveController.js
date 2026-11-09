@@ -2,6 +2,7 @@ const {
   applyLeave: applyLeaveService,
   changeLeavetype: updateLeaveType,
   withdrawLeaveService,
+  leaveHistoryService,
 } = require("./leaveService");
 
 const applyLeave = async (req, res) => {
@@ -82,4 +83,26 @@ const withdrawLeave = async (req, res) => {
   }
 };
 
-module.exports = { applyLeave, changeLeavetype, withdrawLeave };
+// get leave history
+const fetchLeaveHistory = async (req, res, next) => {
+  try {
+    const { employeeId, companyId } = req.user;
+
+    const leaves = await leaveHistoryService(employeeId, companyId);
+
+    res.status(200).json({
+      success: true,
+      message: "Leave history fetched successfully",
+      leaves,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = {
+  applyLeave,
+  changeLeavetype,
+  withdrawLeave,
+  fetchLeaveHistory,
+};

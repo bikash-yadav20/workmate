@@ -38,8 +38,9 @@ const generateMonthlySalaryReport = async (req, res) => {
   }
 };
 
-// get employee salary report individually
+// get employee salary report individually --admin
 const getIndividualPayroll = async (req, res, next) => {
+  console.log("employee payroll route hit");
   try {
     const companyId = req.user.companyId;
     const { salaryPeriodId, employeeId } = req.query;

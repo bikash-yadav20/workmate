@@ -2,17 +2,11 @@
 
 import { Briefcase, ArrowRight } from "lucide-react";
 import { useSalaryPeriodContext } from "@/app/context/salaryPeriod/SalaryPeriodContext";
-import { usePayrollContext } from "../context/PayrollContext";
-import { useEffect } from "react";
+
 import { dateFormatter } from "@/app/utils/date";
 
 export default function SalaryPeriods({ setSalaryPeriodId }) {
   const { salaryPeriods } = useSalaryPeriodContext();
-  const { allEmployees } = usePayrollContext();
-
-  useEffect(() => {
-    console.log("employees", allEmployees);
-  }, []);
 
   if (
     !salaryPeriods ||

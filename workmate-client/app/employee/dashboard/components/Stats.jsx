@@ -1,11 +1,10 @@
 import { dateFormatter } from "@/app/utils/date";
-
+import { useEmployeeContext } from "../../context/EmployeeContextProvider";
 export default function Stats({ isPresent, salaryPeriods }) {
   const activeSalaryPeriod = salaryPeriods?.salaryPeriods?.find(
     (s) => s.status === "draft",
   );
-  console.log("activeSalaryPeriod", activeSalaryPeriod);
-
+  const { leaveHistory } = useEmployeeContext();
   // Safely format the month if the object exists, otherwise show a fallback
   const formattedPeriodMonth = activeSalaryPeriod
     ? dateFormatter.getMonthName(
@@ -21,15 +20,11 @@ export default function Stats({ isPresent, salaryPeriods }) {
       textColor: `${isPresent ? "text-emerald-500" : "text-slate-600"}`,
     },
     {
-      title: "Leave Balance",
-      state: "12 days",
+      title: "Applied leaves",
+      state: `${leaveHistory.length}`,
       textColor: "text-purple-600",
     },
-    {
-      title: "Month-to-Date Salary",
-      state: "$7,600",
-      textColor: "text-emerald-600",
-    },
+
     {
       title: "Active Period",
       state: formattedPeriodMonth,

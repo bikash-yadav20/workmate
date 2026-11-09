@@ -4,18 +4,22 @@ const cookieParser = require("cookie-parser");
 const { swaggerUI, specs } = require("../swagger/swagger");
 
 const companyRoute = require("./modules/companyModule/companyRoute");
+const authRoute = require("./modules/authModule/authRoute");
+
 const adminEmployeeRoute = require("./modules/employeeModule/adminEmployeeRoute");
-const loginRoute = require("./modules/authModule/loginRoute");
 const adminSalaryPeriodRoute = require("./modules/salaryPeriodModule/adminSalaryPeriodRoute");
-const employeeLeaveRoute = require("./modules/leaveModule/employeeLeaveRoute");
-const employeAttandanceRoute = require("./modules/attendanceModule/employeeAttendanceRoute");
 const adminLeaveRoute = require("./modules/leaveModule/adminLeaveRoutes");
 const adminHolidayRoute = require("./modules/holidayModule/adminHolidayRoute");
 const deductionRulesRoute = require("./modules/deductionRulesModule/deductionRulesRoute");
 const adminAdvancePaymentRoute = require("./modules/advancePaymentModule/adminAdvancePaymentRoute");
 const adminSalaryRecordsRoute = require("./modules/salaryRecordModule/adminSalaryRecordRoute");
 const adminAttendanceRoute = require("./modules/attendanceModule/adminAttendanceRoute");
+
 const employeeRoute = require("./modules/employeeModule/employeeRoute");
+const employeeLeaveRoute = require("./modules/leaveModule/employeeLeaveRoute");
+const employeeAttendanceRoute = require("./modules/attendanceModule/employeeAttendanceRoute");
+const employeeSalaryRecordsRoute = require("./modules/salaryRecordModule/employeeSalaryRecordRoute");
+
 const errorHandler = require("./middlewares/errorHandler");
 
 const app = express();
@@ -23,7 +27,7 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:8080",
-  "http://192.168.1.2:3000",
+  "http://192.168.1.6:3000",
 ];
 
 app.use(
@@ -42,51 +46,32 @@ app.use(
 
 app.use(cookieParser());
 app.use(express.json());
-//check health status
+
 app.get("/health", (req, res) => {
   res.send("health status ok");
 });
-//swagger
+
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 
-//create company
-app.use("/company", companyRoute);
-//create employee
-app.use("/workmate", adminEmployeeRoute);
-//login
-app.use("/workmate", loginRoute);
+// Specific employee routes (placed above broad prefixes)
+app.use("/workmate/employee", employeeSalaryRecordsRoute);
+app.use("/workmate/employee", employeeLeaveRoute);
+app.use("/workmate/employee/attendance", employeeAttendanceRoute);
+app.use("/workmate/employee-profile", employeeRoute);
 
-//create salary perids
+// Core and admin routes
+app.use("/company", companyRoute);
+app.use("/workmate", authRoute);
+app.use("/workmate", adminEmployeeRoute);
 app.use("/workmate", adminSalaryPeriodRoute);
 
-//employee leave routes for employee
-app.use("/workmate/employee/", employeeLeaveRoute);
+app.use("/workmate/admin", adminHolidayRoute);
+app.use("/workmate/admin", adminLeaveRoute);
+app.use("/workmate/admin", deductionRulesRoute);
+app.use("/workmate/admin", adminAdvancePaymentRoute);
+app.use("/workmate/admin", adminSalaryRecordsRoute);
+app.use("/workmate/admin", adminAttendanceRoute);
 
-//get self data
-app.use("/workmate/employee-profile/", employeeRoute);
-
-//admin leave route
-app.use("/workmate/admin/", adminHolidayRoute);
-
-//holiday routes (admin)
-app.use("/workmate/admin/", adminLeaveRoute);
-
-//deduction rules routes
-app.use("/workmate/admin/", deductionRulesRoute);
-
-//advance payment route
-app.use("/workmate/admin/", adminAdvancePaymentRoute);
-
-//generate monthly salary report
-app.use("/workmate/admin/", adminSalaryRecordsRoute);
-
-//get daily attendeesCount (admin)
-app.use("/workmate/admin/", adminAttendanceRoute);
-
-//employee attendance routes
-app.use("/workmate/employee/attendance/", employeAttandanceRoute);
-
-/*Error handler */
 app.use(errorHandler);
 
 module.exports = app;

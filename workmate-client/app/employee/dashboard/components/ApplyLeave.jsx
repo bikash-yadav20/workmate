@@ -22,6 +22,10 @@ export default function ApplyLeave() {
 
       if (response && response.success) {
         toast.success(response.message || "Leave applied successfully!");
+        setType("");
+        setFromDate("");
+        setReason("");
+        setToDate("");
       } else {
         toast.error(response?.message || "Failed to apply leave");
       }
@@ -52,6 +56,7 @@ export default function ApplyLeave() {
                 <input
                   type="radio"
                   name="type"
+                  required
                   checked={type === "paid"}
                   onChange={() => handleCheckboxChange("paid")}
                   className="sr-only peer"
@@ -82,6 +87,7 @@ export default function ApplyLeave() {
                 <input
                   type="radio"
                   name="type"
+                  required
                   checked={type === "unpaid"}
                   onChange={() => handleCheckboxChange("unpaid")}
                   className="sr-only peer"
@@ -117,6 +123,7 @@ export default function ApplyLeave() {
               <div className="relative">
                 <input
                   type="date"
+                  required
                   value={fromDate}
                   onChange={(e) => setFromDate(e.target.value)}
                   className="w-full bg-white border border-gray-200 rounded-xl px-3 py-2.5 text-sm text-slate-800 font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
@@ -131,6 +138,7 @@ export default function ApplyLeave() {
               <div className="relative">
                 <input
                   type="date"
+                  required
                   value={toDate}
                   onChange={(e) => setToDate(e.target.value)}
                   className="w-full bg-white border border-gray-200 rounded-xl px-3 py-2.5 text-sm text-slate-800 font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
@@ -147,6 +155,7 @@ export default function ApplyLeave() {
             <textarea
               rows="3"
               value={reason}
+              required
               onChange={(e) => setReason(e.target.value)}
               placeholder="Briefly describe the reason for your leave..."
               className="w-full bg-white border border-gray-200 rounded-xl p-3 text-sm text-slate-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all resize-none"

@@ -82,7 +82,7 @@
         description: Internal server error
 
 # Logout employee
-/workmate/employee-logout:
+/workmate/logout:
   post:
     summary: Employee logout
     tags:

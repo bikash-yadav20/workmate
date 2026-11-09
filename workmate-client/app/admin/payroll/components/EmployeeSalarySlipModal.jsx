@@ -3,6 +3,7 @@
 import { X, ArrowLeft, Download } from "lucide-react";
 import { usePayrollContext } from "../context/PayrollContext";
 import { downloadSlip } from "@/app/utils/downloadSalarySlip";
+import { dateFormatter } from "@/app/utils/date";
 
 export default function EmployeeSalarySlipModal({
   isOpen,
@@ -15,21 +16,7 @@ export default function EmployeeSalarySlipModal({
 
   const { payrollSlipData } = usePayrollContext();
 
-  // Dummy data fallback matching the design screenshot
-  const data = payrollSlipData.employeePayroll || {
-    name: "Sarah Chen",
-    role: "Senior Engineer",
-    period: "September 2026",
-    avatarBg: "bg-indigo-600",
-    initials: "SC",
-    grossSalary: "$9,500",
-    totalWorkingDays: "22 days",
-    presentDays: "21 days",
-    paidLeaveDays: "0 days",
-    attendanceDeduction: "-$432",
-    advanceDeduction: "—",
-    netPayable: "$9,068",
-  };
+  const data = payrollSlipData.employeePayroll || {};
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
@@ -65,7 +52,8 @@ export default function EmployeeSalarySlipModal({
               {employeeData.fullName}
             </h2>
             <p className="text-xs text-gray-500">
-              {employeeData.department} · {data.period}
+              {employeeData.department} ·{" "}
+              {dateFormatter.getMonthName(period.month, period.year)}
             </p>
           </div>
         </div>

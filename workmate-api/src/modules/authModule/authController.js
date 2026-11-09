@@ -1,4 +1,4 @@
-const loginService = require("./loginService");
+const authService = require("./authService");
 
 const login = async (req, res, next) => {
   try {
@@ -11,7 +11,7 @@ const login = async (req, res, next) => {
         message: "Password and either email or employeeId are required.",
       });
     }
-    const loginUser = await loginService.login({
+    const loginUser = await authService.login({
       password: password,
       identifier: identifier,
     });
@@ -50,4 +50,21 @@ const authMe = async (req, res) => {
   }
 };
 
-module.exports = { login, authMe };
+// logout employee
+const logout = async (req, res, next) => {
+  try {
+    res.clearCookie("workmate", {
+      secure: false,
+      sameSite: "lax",
+    });
+
+    return res
+      .status(200)
+      .json({ success: true, message: "Logged out successfully" });
+  } catch (error) {
+    console.error(error.message);
+    next(error);
+  }
+};
+
+module.exports = { login, logout, authMe };

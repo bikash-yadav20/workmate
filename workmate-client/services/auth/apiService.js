@@ -17,3 +17,12 @@ export const loginRoute = async (credentials) => {
 
   return response;
 };
+
+// logout admin or employee
+export const logoutRoute = async () => {
+  const response = await apiClient("/workmate/logout", {
+    method: "POST",
+  });
+
+  return response;
+};

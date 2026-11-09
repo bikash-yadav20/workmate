@@ -87,3 +87,19 @@
         description: Unauthorized - Missing or invalid token
       "500":
         description: Internal server error
+
+# fetch leave history
+/workmate/employee/leave-history:
+  get:
+    summary: Fetch all applied leave histories for a employee (pending, approved, rejected)
+    tags:
+      - EmployeeLeave
+    responses:
+      "200":
+        description: Leave history fetched succesfully
+      "400":
+        description: Validation error
+      "401":
+        description: Unauthorized - Missing or invalid token
+      "500":
+        description: Internal server error

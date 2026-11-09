@@ -1,10 +1,14 @@
 import { Bell } from "lucide-react";
 import { dateFormatter } from "@/app/utils/date";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { logoutRoute } from "@/services/auth/apiService";
+import { toast } from "react-toastify";
 
 export default function Navbar({ heading, description }) {
   const [mounted, setMounted] = useState(false);
 
+  const router = useRouter();
   //the date and time will only be rendered once component is mounted
   useEffect(() => {
     setMounted(true);
@@ -46,9 +50,21 @@ export default function Navbar({ heading, description }) {
             </div>
             <div className="opacity-0 transition-opacity-300  group-hover:opacity-100 flex flex-col gap-3 absolute mt-12 bg-white border-gray-100 ">
               <p className="text-sm font-medium cursor-pointer">profile</p>
-              <p className="text-sm font-medium text-red-500 cursor-pointer">
+              <button
+                onClick={async () => {
+                  const res = await logoutRoute();
+                  if (res.success) {
+                    toast.success("Logout successful");
+                    router.push("/auth/login");
+                    router.refresh();
+                  } else {
+                    toast.error(res.message || "Logout failed");
+                  }
+                }}
+                className="text-sm font-medium text-red-500 cursor-pointer"
+              >
                 Log out
-              </p>
+              </button>
             </div>
           </div>
         </div>
