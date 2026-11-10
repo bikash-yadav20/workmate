@@ -8,7 +8,7 @@ const router = express.Router();
 
 //start a new salary period
 router.post(
-  "/salary-periods",
+  "/salary-period",
   protectAuth,
   authorize("admin"),
   generateSalaryPeriod,

@@ -5,6 +5,9 @@ const {
 } = require("./adminSalaryRecordController");
 const { protectAuth } = require("../../middlewares/authMiddleware");
 const { authorize } = require("../../middlewares/roleMiddleware");
+const {
+  generateSalaryPeriod,
+} = require("../salaryPeriodModule/adminSalaryPeriodController");
 
 const router = express.Router();
 

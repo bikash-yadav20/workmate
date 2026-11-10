@@ -3,9 +3,8 @@ const { SalaryPeriodService } = require("./salaryPeriodService");
 
 const generateSalaryPeriod = async (req, res) => {
   try {
-    const currentMonth = req.body?.month || getCurrentPeriodContext.month;
+    const { currentYear, currentMonth } = getCurrentPeriodContext();
 
-    const currentYear = req.body?.year || getCurrentPeriodContext.year;
     //creatin instance of generateSalaryPeriods
     const service = new SalaryPeriodService();
     const newSalaryPeriods = await service.generateSalaryPeriods(

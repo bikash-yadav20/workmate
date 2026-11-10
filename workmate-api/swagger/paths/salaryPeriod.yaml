@@ -1,4 +1,4 @@
-/workmate/salary-periods:
+/workmate/adminsalary-periods:
   post:
     summary: "Generates draft salary periods for active companies"
     description: "Executes the cycle generation batch for companies starting their pay period today. Uses query/body dates or defaults to current system date."
@@ -48,7 +48,7 @@
         description: "Internal Server Error"
 
 # get all salary periods
-/workmate/fetch-salaryPeriods:
+/workmate/admin/fetch-salaryPeriods:
   get:
     summary: "Fetches all salary period raws of a company"
     description: "by fetching salary period start and end date we can easily filter data in frontend"

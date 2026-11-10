@@ -63,7 +63,7 @@ app.use("/workmate/employee-profile", employeeRoute);
 app.use("/company", companyRoute);
 app.use("/workmate", authRoute);
 app.use("/workmate", adminEmployeeRoute);
-app.use("/workmate", adminSalaryPeriodRoute);
+app.use("/workmate/admin", adminSalaryPeriodRoute);
 
 app.use("/workmate/admin", adminHolidayRoute);
 app.use("/workmate/admin", adminLeaveRoute);
