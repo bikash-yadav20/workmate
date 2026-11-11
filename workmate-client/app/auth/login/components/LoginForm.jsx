@@ -12,8 +12,8 @@ export default function LoginForm() {
   const [rememberMe, setRememberMe] = useState(false);
   const [redHighlight, setRedHighlight] = useState(false);
 
-  //login function from auth context
-  const { login } = authenticateContext();
+  //login function from auth context and user data
+  const { login, user } = authenticateContext();
 
   const router = useRouter();
   const handleSubmit = async (e) => {
@@ -27,7 +27,7 @@ export default function LoginForm() {
 
       if (response.success) {
         toast.success("Login succesfull");
-        router.push();
+        // Navigation is handled by the login function in AuthContext
       } else {
         toast.error(response.error);
         setRedHighlight(true);
