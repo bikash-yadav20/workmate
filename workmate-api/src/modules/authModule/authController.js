@@ -1,6 +1,6 @@
 const authService = require("./authService");
 
-const isProduction = process.env.NODE_ENV === "production";
+// const isProduction = process.env.NODE_ENV === "production";
 
 const login = async (req, res, next) => {
   try {
@@ -20,8 +20,8 @@ const login = async (req, res, next) => {
 
     res.cookie("workmate", loginUser.token, {
       maxAge: 24 * 60 * 60 * 1000,
-      secure: isProduction, // Using the variable declared above
-      sameSite: isProduction ? "none" : "lax", // Using the variable declared above
+      secure: true,
+      sameSite: "none",
       httpOnly: true,
     });
 
@@ -57,8 +57,8 @@ const authMe = async (req, res) => {
 const logout = async (req, res, next) => {
   try {
     res.clearCookie("workmate", {
-      secure: isProduction,
-      sameSite: isProduction ? "none" : "lax",
+      secure: true,
+      sameSite: "none",
       httpOnly: true,
     });
 
