@@ -8,7 +8,7 @@ export default function middleware(request) {
   const { pathname } = request.nextUrl;
 
   if (!token) {
-    NextResponse.redirect(new URL("/auth/login", request.nextUrl));
+    return NextResponse.redirect(new URL("/auth/login", request.nextUrl));
   }
 
   try {
