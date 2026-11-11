@@ -28,6 +28,7 @@ const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:8080",
   "http://192.168.1.6:3000",
+  "https://workmate-p7go69qlo-bikash-yadav.vercel.app",
 ];
 
 app.use(

@@ -18,8 +18,9 @@ const login = async (req, res, next) => {
 
     res.cookie("workmate", loginUser.token, {
       maxAge: 24 * 60 * 60 * 1000,
-      secure: false,
-      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      httpOnly: true,
     });
 
     res.status(200).json({
@@ -54,8 +55,8 @@ const authMe = async (req, res) => {
 const logout = async (req, res, next) => {
   try {
     res.clearCookie("workmate", {
-      secure: false,
-      sameSite: "lax",
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
     });
 
     return res
