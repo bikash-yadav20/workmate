@@ -1,5 +1,6 @@
 const authService = require("./authService");
 
+const isProduction = process.env.NODE_ENV === "production";
 const login = async (req, res, next) => {
   try {
     const { password, identifier } = req.body;

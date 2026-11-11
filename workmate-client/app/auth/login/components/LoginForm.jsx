@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { toast } from "react-toastify";
-import Link from "next/link";
+
+import { useRouter } from "next/navigation";
 import { authenticateContext } from "@/app/context/auth/AuthContext";
 
 export default function LoginForm() {
@@ -14,6 +15,7 @@ export default function LoginForm() {
   //login function from auth context
   const { login } = authenticateContext();
 
+  const router = useRouter();
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -25,6 +27,7 @@ export default function LoginForm() {
 
       if (response.success) {
         toast.success("Login succesfull");
+        router.push();
       } else {
         toast.error(response.error);
         setRedHighlight(true);
@@ -122,12 +125,9 @@ export default function LoginForm() {
               Remember me
             </label>
           </div>
-          <Link
-            className="text-blue-600 underline hover:text-blue-700"
-            href="/forgot-password"
-          >
+          <p className="text-blue-600 underline hover:text-blue-700">
             Forgot Password
-          </Link>
+          </p>
         </div>
 
         {/* Submit Button */}
