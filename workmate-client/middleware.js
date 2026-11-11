@@ -3,6 +3,16 @@ import { NextResponse } from "next/server";
 export default function middleware(request) {
   //get jwt token from cookie
   const token = request.cookies.get("workmate")?.value;
+  console.log("--- MIDDLEWARE DEBUG ---");
+  console.log("Pathname:", request.nextUrl.pathname);
+  console.log(
+    "All Cookies present:",
+    request.cookies.getAll().map((c) => c.name),
+  );
+  console.log(
+    "Token found:",
+    token ? "YES (Token exists)" : "NO (Token is missing)",
+  );
 
   //get pathname
   const { pathname } = request.nextUrl;
