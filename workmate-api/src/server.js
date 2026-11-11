@@ -12,8 +12,8 @@ const connectDb = async () => {
     await sequelize.authenticate();
     console.log("DB Connected");
 
-    await sequelize.sync({ force: true });
-    console.log("Database synced successfully");
+    // await sequelize.sync({ force: true });
+    // console.log("Database synced successfully");
 
     //calling cron job for creating salary period
     initSalaryPeriodCron();
