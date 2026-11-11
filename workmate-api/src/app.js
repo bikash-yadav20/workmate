@@ -24,6 +24,9 @@ const errorHandler = require("./middlewares/errorHandler");
 
 const app = express();
 
+// trust proxy for render
+app.set("trust proxy", 1);
+
 const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:8080",
