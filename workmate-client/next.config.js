@@ -1,5 +1,7 @@
 const nextConfig = {
-  /* config options here */
+  async rewrites() {
+    
+  },
 };
 
 export default nextConfig;
