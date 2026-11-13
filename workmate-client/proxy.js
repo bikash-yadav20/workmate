@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-export default function middleware(request) {
+export default function proxy(request) {
   //get jwt token from cookie
   const token = request.cookies.get("workmate")?.value;
   console.log("--- MIDDLEWARE DEBUG ---");

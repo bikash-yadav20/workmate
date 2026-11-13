@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-import { useRouter } from "next/navigation";
+
 import { authenticateContext } from "@/app/context/auth/AuthContext";
 
 export default function LoginForm() {
@@ -15,7 +15,7 @@ export default function LoginForm() {
   //login function from auth context and user data
   const { login, user } = authenticateContext();
 
-  const router = useRouter();
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
