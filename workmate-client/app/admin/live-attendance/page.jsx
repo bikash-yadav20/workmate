@@ -12,7 +12,7 @@ export default function page() {
   );
 
   const totalLate = attendanceData.filter(
-    (e) => e.status?.toLowerCase() === "present",
+    (e) => e.status?.toLowerCase() === "late",
   );
 
   const totalAbsent = attendanceData.filter(

@@ -129,11 +129,6 @@ export default function Sidebar() {
                     />
                     <span>{item.name}</span>
                   </div>
-                  {item.badge && (
-                    <span className="bg-amber-500 text-gray-950 font-bold text-xs px-2 py-0.5 rounded-full">
-                      {item.badge}
-                    </span>
-                  )}
                 </Link>
               );
             })}
