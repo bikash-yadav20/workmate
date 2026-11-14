@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { toast } from "react-toastify";
-
+import { LoaderCircle } from "lucide-react";
 
 import { authenticateContext } from "@/app/context/auth/AuthContext";
 
@@ -11,25 +11,27 @@ export default function LoginForm() {
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [redHighlight, setRedHighlight] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   //login function from auth context and user data
   const { login, user } = authenticateContext();
 
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setIsLoading(true);
       const response = await login({
         identifier: identifier,
         password: password,
       });
-      console.log(response);
 
       if (response.success) {
         toast.success("Login succesfull");
+        setIsLoading(false);
         // Navigation is handled by the login function in AuthContext
       } else {
         toast.error(response.error);
+        setIsLoading(false);
         setRedHighlight(true);
       }
     } catch (error) {
@@ -133,9 +135,14 @@ export default function LoginForm() {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full mb-3 bg-emerald-400 cursor-pointer hover:bg-emerald-500/90 transition py-2.5 rounded text-white font-medium"
+          disabled={isLoading}
+          className="w-full mb-3 bg-emerald-400 cursor-pointer hover:bg-emerald-500/90 transition py-2.5 rounded text-white font-medium flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed"
         >
-          Log In
+          {isLoading ? (
+            <LoaderCircle className="animate-spin" size={20} />
+          ) : (
+            "Log In"
+          )}
         </button>
       </form>
     </div>

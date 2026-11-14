@@ -1,5 +1,6 @@
 import { FaArrowRight, FaArrowLeft, FaSpinner } from "react-icons/fa";
 import { useRegisterForm } from "../context/RegisterContext";
+import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
 export default function ({ setAdminStepActive, isLoading, setIsLoading }) {
@@ -11,6 +12,8 @@ export default function ({ setAdminStepActive, isLoading, setIsLoading }) {
     handleAdminSalaryChange,
     handleSubmit,
   } = useRegisterForm();
+
+  const router = useRouter();
   return (
     <div className="flext flex-col h-full items-center  justify-centerw-full max-w-md mx-auto p-4 bg-white rounded-xl shadow-sm">
       {/* Header */}
@@ -31,6 +34,7 @@ export default function ({ setAdminStepActive, isLoading, setIsLoading }) {
 
             if (res.success) {
               toast.success("Company and admin registered successfully");
+              router.push("/auth/login");
             } else {
               toast.error(res?.message || "Internal server or network error");
             }
